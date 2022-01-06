@@ -47,6 +47,7 @@ func RegisterEtcd(schema, etcdAddr, myHost string, myPort int, serviceName strin
 
 	//lease
 	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel() //用点心吧，这里不调用会造成内存泄漏的
 	resp, err := cli.Grant(ctx, int64(ttl))
 	if err != nil {
 		return fmt.Errorf("grant failed")
